@@ -8,25 +8,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #0066DC; --primary-orange: #E74100;
-            --env-green: #B2BF30; --dark-bg: #2D2D2D; --card-bg: #333333;
-            --text-light: #FFFFFF; --text-gray: #999999; --border-gray: #444444;
+            --primary-blue: #0066DC;
+            --primary-orange: #E74100;
+            --env-green: #B2BF30;
+            --bg-green: #b3be3d;
+            --card-bg: #FFFFFF;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+            --border-light: #E0E0E0;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #b3be3d; color: var(--text-light); min-height: 100vh; transition: background 0.5s ease; }
-        body.dark-mode { background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%); }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-green);
+            color: var(--text-dark); 
+            min-height: 100vh;
+        }
         
         /* HEADER */
-        .header { background: linear-gradient(135deg, var(--primary-blue), #004AAE); padding: 1.5rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.3); border-bottom: 2px solid var(--primary-orange); }
-        .header-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; }
-        .logo img { height: 40px; border-radius: 6px; }
-        .header-progress { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+        .header { 
+            background: linear-gradient(135deg, var(--primary-blue), #004AAE); 
+            padding: 1.5rem 0; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+            border-bottom: 3px solid var(--primary-orange); 
+        }
         
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .screen { display: none; animation: fadeIn 0.5s ease; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .header-content { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: white;
+        }
+        
+        .logo img { 
+            height: 40px; 
+            border-radius: 6px; 
+        }
+        
+        .header-progress { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            font-size: 0.9rem; 
+            color: rgba(255,255,255,0.95); 
+            font-weight: 500;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+        }
+        
+        .screen { 
+            display: none; 
+            animation: fadeIn 0.5s ease; 
+        }
+        
+        .screen.active { 
+            display: block; 
+        }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
         
         /* PANTALLA DE CARGA INICIAL */
         .loading-screen { 
@@ -37,70 +99,364 @@
             min-height: 60vh; 
             text-align: center;
         }
+        
         .loading-spinner {
             width: 60px;
             height: 60px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid #1a1a1a;
+            border: 4px solid rgba(26,26,26,0.2);
+            border-top: 4px solid var(--text-dark);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 1.5rem;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { color: #1a1a1a; font-size: 1.1rem; font-weight: 600; }
-        .loading-subtext { color: #333; font-size: 0.9rem; margin-top: 0.5rem; }
+        
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        .loading-text { 
+            color: var(--text-dark); 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+        }
+        
+        .loading-subtext { 
+            color: #333; 
+            font-size: 0.9rem; 
+            margin-top: 0.5rem; 
+        }
 
         /* BOTONES */
-        .btn-primary { background: linear-gradient(135deg, var(--primary-blue), #004AAE); color: white; border: none; padding: 1rem 2rem; font-weight: 600; border-radius: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; font-size: 1rem; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,102,220,0.4); }
-        .btn-secondary { background: transparent; color: white; border: 2px solid var(--border-gray); padding: 0.8rem 1.5rem; font-weight: 500; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; font-size: 0.95rem; }
-        .btn-secondary:hover { border-color: var(--primary-blue); background: rgba(0,102,220,0.1); }
-        .btn-back { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-gray); padding: 0.6rem 1.2rem; font-weight: 500; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; font-size: 0.9rem; }
-        .btn-back:hover { background: rgba(255,255,255,0.15); border-color: var(--text-gray); }
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary-blue), #004AAE); 
+            color: white; 
+            border: none; 
+            padding: 1rem 2rem; 
+            font-weight: 600; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            transition: all 0.2s; 
+            font-size: 1rem; 
+        }
+        
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 5px 15px rgba(0,102,220,0.4); 
+        }
+        
+        .btn-secondary { 
+            background: white; 
+            color: var(--text-dark); 
+            border: 2px solid var(--border-light); 
+            padding: 0.8rem 1.5rem; 
+            font-weight: 500; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            transition: all 0.2s; 
+            font-size: 0.95rem; 
+        }
+        
+        .btn-secondary:hover { 
+            border-color: var(--primary-blue); 
+            background: rgba(0,102,220,0.05); 
+        }
+        
+        .btn-back { 
+            background: white; 
+            color: var(--text-gray); 
+            border: 1px solid var(--border-light); 
+            padding: 0.6rem 1.2rem; 
+            font-weight: 500; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            transition: all 0.2s; 
+            font-size: 0.9rem; 
+        }
+        
+        .btn-back:hover { 
+            background: #f8f9fa; 
+            border-color: var(--text-gray); 
+            color: var(--text-dark);
+        }
 
         /* CARDS EMPRESA */
-        .empresa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .empresa-card { background: white; border: 2px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 2rem; cursor: pointer; text-align: center; transition: all 0.3s; color: #333; }
-        .empresa-card:hover { border-color: var(--primary-blue); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .empresa-card h3 { color: #1a1a1a; }
-        .empresa-icon { font-size: 3rem; color: var(--primary-blue); margin-bottom: 1rem; }
+        .empresa-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin-top: 2rem; 
+        }
         
-        /* PREGUNTAS */
-        .question-container { max-width: 800px; margin: 2rem auto; background: var(--card-bg); padding: 3rem; border-radius: 16px; border: 1px solid var(--border-gray); }
-        .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .question-text { font-size: 1.4rem; font-weight: 600; margin-bottom: 2rem; line-height: 1.5; }
-        .answer-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; }
-        .btn-answer { flex: 1; max-width: 200px; padding: 1.5rem; border-radius: 12px; font-weight: 600; font-size: 1.1rem; cursor: pointer; background: #1A1A1A; color: white; border: 2px solid var(--border-gray); transition: all 0.3s; }
-        .btn-answer.si:hover { border-color: var(--env-green); background: rgba(178, 191, 48, 0.15); }
-        .btn-answer.no:hover { border-color: var(--primary-orange); background: rgba(231, 65, 0, 0.15); }
-        .navigation-buttons { display: flex; justify-content: center; padding-top: 1rem; border-top: 1px solid var(--border-gray); }
+        .empresa-card { 
+            background: white; 
+            border: 2px solid rgba(0,0,0,0.1); 
+            border-radius: 12px; 
+            padding: 2rem; 
+            cursor: pointer; 
+            text-align: center; 
+            transition: all 0.3s; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .empresa-card:hover { 
+            border-color: var(--primary-blue); 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 24px rgba(0,102,220,0.2); 
+        }
+        
+        .empresa-card h3 { 
+            color: var(--text-dark); 
+            margin-bottom: 0.5rem;
+        }
+        
+        .empresa-icon { 
+            font-size: 3rem; 
+            color: var(--primary-blue); 
+            margin-bottom: 1rem; 
+        }
+        
+        /* PREGUNTAS - FONDO VERDE MANTENIDO */
+        .question-container { 
+            max-width: 800px; 
+            margin: 2rem auto; 
+            background: white; 
+            padding: 3rem; 
+            border-radius: 16px; 
+            border: 2px solid rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .question-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.5rem; 
+        }
+        
+        .question-text { 
+            font-size: 1.4rem; 
+            font-weight: 600; 
+            margin-bottom: 2rem; 
+            line-height: 1.5; 
+            color: var(--text-dark);
+        }
+        
+        .answer-buttons { 
+            display: flex; 
+            gap: 1rem; 
+            justify-content: center; 
+            margin-bottom: 1.5rem; 
+        }
+        
+        .btn-answer { 
+            flex: 1; 
+            max-width: 200px; 
+            padding: 1.5rem; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            background: white; 
+            color: var(--text-dark); 
+            border: 2px solid var(--border-light); 
+            transition: all 0.3s; 
+        }
+        
+        .btn-answer.si:hover { 
+            border-color: var(--env-green); 
+            background: rgba(178, 191, 48, 0.15); 
+            color: #1a1a1a;
+            font-weight: 700;
+            transform: scale(1.05);
+        }
+        
+        .btn-answer.no:hover { 
+            border-color: var(--primary-orange); 
+            background: rgba(231, 65, 0, 0.15); 
+            color: var(--primary-orange);
+            font-weight: 700;
+            transform: scale(1.05);
+        }
+        
+        .navigation-buttons { 
+            display: flex; 
+            justify-content: center; 
+            padding-top: 1rem; 
+            border-top: 1px solid var(--border-light); 
+        }
 
         /* RESULTADOS */
-        .results-header { text-align: center; margin-bottom: 2rem; }
-        .nivel-badge { font-size: 1.5rem; padding: 1rem 2rem; border-radius: 12px; display: inline-block; margin: 1rem 0; font-weight: 700; }
-        .nivel-excelente { background: var(--env-green); color: #1a1a1a; }
-        .nivel-bueno { background: var(--primary-blue); }
-        .nivel-regular { background: var(--primary-orange); }
-        .nivel-inicial { background: #666; }
-        .action-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 3rem; flex-wrap: wrap; }
+        .results-header { 
+            text-align: center; 
+            margin-bottom: 2rem; 
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .nivel-badge { 
+            font-size: 1.5rem; 
+            padding: 1rem 2rem; 
+            border-radius: 12px; 
+            display: inline-block; 
+            margin: 1rem 0; 
+            font-weight: 700; 
+        }
+        
+        .nivel-excelente { 
+            background: var(--env-green); 
+            color: white; 
+        }
+        
+        .nivel-bueno { 
+            background: var(--primary-blue); 
+            color: white;
+        }
+        
+        .nivel-regular { 
+            background: var(--primary-orange); 
+            color: white;
+        }
+        
+        .nivel-inicial { 
+            background: #999; 
+            color: white;
+        }
+        
+        .action-buttons { 
+            display: flex; 
+            gap: 1rem; 
+            justify-content: center; 
+            margin-top: 3rem; 
+            flex-wrap: wrap; 
+        }
         
         /* FORMULARIO */
-        .form-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border-gray); background: #1a1a1a; color: white; font-size: 1rem; transition: border-color 0.2s; }
-        .form-input:focus { border-color: var(--primary-blue); outline: none; }
-        .form-label { display: block; margin-bottom: 6px; color: #ccc; font-size: 0.9rem; font-weight: 500; }
-        .form-select { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border-gray); background: #1a1a1a; color: white; font-size: 1rem; transition: border-color 0.2s; cursor: pointer; }
-        .form-select:focus { border-color: var(--primary-blue); outline: none; }
+        .form-input { 
+            width: 100%; 
+            padding: 14px; 
+            margin-bottom: 15px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border-light); 
+            background: #f5f5f5; 
+            color: var(--text-dark); 
+            font-size: 1rem; 
+            transition: border-color 0.2s; 
+        }
+        
+        .form-input:focus { 
+            border-color: var(--primary-blue); 
+            outline: none; 
+            background: white;
+        }
+        
+        .form-label { 
+            display: block; 
+            margin-bottom: 6px; 
+            color: var(--text-dark); 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+        }
+        
+        .form-select { 
+            width: 100%; 
+            padding: 14px; 
+            margin-bottom: 15px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border-light); 
+            background: #f5f5f5; 
+            color: var(--text-dark); 
+            font-size: 1rem; 
+            transition: border-color 0.2s; 
+            cursor: pointer; 
+        }
+        
+        .form-select:focus { 
+            border-color: var(--primary-blue); 
+            outline: none; 
+            background: white;
+        }
         
         /* INFO BOXES */
-        .info-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem auto 3rem; max-width: 900px; }
-        .info-box { background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.1); }
-        .info-box-title { color: var(--primary-blue); font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-        .info-box-desc { color: #555; font-size: 0.9rem; }
+        .info-boxes { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin: 2rem auto 3rem; 
+            max-width: 900px; 
+        }
+        
+        .info-box { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            border: 1px solid rgba(0,0,0,0.1); 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .info-box-title { 
+            color: var(--primary-blue); 
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        
+        .info-box-desc { 
+            color: #555; 
+            font-size: 0.9rem; 
+        }
 
         /* PROGRESS BAR */
-        .progress-container { max-width: 800px; margin: 0 auto 1rem; }
-        .progress-bar { height: 6px; background: var(--border-gray); border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-blue), var(--env-green)); transition: width 0.3s ease; }
+        .progress-container { 
+            max-width: 800px; 
+            margin: 0 auto 1rem; 
+        }
+        
+        .progress-bar { 
+            height: 6px; 
+            background: rgba(0,0,0,0.2); 
+            border-radius: 3px; 
+            overflow: hidden; 
+        }
+        
+        .progress-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, var(--primary-blue), var(--env-green)); 
+            transition: width 0.3s ease; 
+        }
+
+        /* AJUSTES RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .question-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .answer-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-answer {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -123,7 +479,7 @@
         <!-- PANTALLA 0: CARGA INICIAL -->
         <div id="loadingInitialScreen" class="screen active">
             <div class="loading-screen">
-                <img src="https://i.imgur.com/1PrgQLh.jpg" alt="Compromiso Pro" style="height: 80px; border-radius: 12px; margin-bottom: 2rem;">
+                <img src="https://i.imgur.com/1PrgQLh.jpg" alt="Compromiso Pro" style="height: 80px; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                 <div class="loading-spinner"></div>
                 <div class="loading-text">Cargando cuestionarios...</div>
                 <div class="loading-subtext">Preparando tu diagnóstico ambiental</div>
@@ -155,35 +511,35 @@
             <div class="empresa-grid" id="empresaGrid"></div>
 
             <!-- Formulario Datos Usuario -->
-            <div id="userDataForm" style="display: none; max-width: 450px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <div id="userDataForm" style="display: none; max-width: 450px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
                 <h3 style="margin-bottom: 1.5rem; text-align: center; color: var(--primary-blue);">Completa tus datos para iniciar</h3>
                 
-                <label class="form-label" style="color: #333;">Nombre Completo *</label>
-                <input type="text" id="userName" class="form-input" placeholder="Ej: Juan Pérez" style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                <label class="form-label">Nombre Completo *</label>
+                <input type="text" id="userName" class="form-input" placeholder="Ej: Juan Pérez">
                 
-                <label class="form-label" style="color: #333;">Nombre de la Empresa *</label>
-                <input type="text" id="companyName" class="form-input" placeholder="Ej: Constructora ABC Ltda." style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                <label class="form-label">Nombre de la Empresa *</label>
+                <input type="text" id="companyName" class="form-input" placeholder="Ej: Constructora ABC Ltda.">
                 
-                <label class="form-label" style="color: #333;">RUT Empresa *</label>
-                <input type="text" id="userRut" class="form-input" placeholder="Ej: 76.123.456-7" style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                <label class="form-label">RUT Empresa *</label>
+                <input type="text" id="userRut" class="form-input" placeholder="Ej: 76.123.456-7">
                 
-                <label class="form-label" style="color: #333;">Tamaño de la Empresa *</label>
-                <select id="companySize" class="form-select" style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                <label class="form-label">Tamaño de la Empresa *</label>
+                <select id="companySize" class="form-select">
                     <option value="">-- Selecciona --</option>
                     <option value="Pequeña">Pequeña (menos de 50 trabajadores)</option>
                     <option value="Mediana">Mediana (50 - 200 trabajadores)</option>
                     <option value="Grande">Grande (más de 200 trabajadores)</option>
                 </select>
                 
-                <label class="form-label" style="color: #333;">Correo Electrónico *</label>
-                <input type="email" id="userEmail" class="form-input" placeholder="Ej: contacto@empresa.cl" style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                <label class="form-label">Correo Electrónico *</label>
+                <input type="email" id="userEmail" class="form-input" placeholder="Ej: contacto@empresa.cl">
                 
                 <div style="font-size: 0.8rem; color: #666; margin-bottom: 1.5rem;">
                     * Campos obligatorios. El reporte será enviado a este correo.
                 </div>
 
                 <div style="display: flex; gap: 1rem;">
-                    <button class="btn-secondary" onclick="volverSeleccionEmpresa()" style="flex: 1; color: #333; border-color: #999;">
+                    <button class="btn-secondary" onclick="volverSeleccionEmpresa()" style="flex: 1;">
                         <i class="fas fa-arrow-left"></i> Volver
                     </button>
                     <button class="btn-primary" onclick="startSurvey()" style="flex: 2;">
@@ -221,9 +577,9 @@
         <!-- PANTALLA 3: RESULTADOS -->
         <div id="resultsScreen" class="screen">
             <div class="results-header">
-                <h1>Resultados del Diagnóstico</h1>
+                <h1 style="color: var(--text-dark);">Resultados del Diagnóstico</h1>
                 <div id="nivelBadge" class="nivel-badge">Calculando...</div>
-                <div style="font-size: 3rem; font-weight: 700; margin: 1rem 0;" id="scoreDisplay">0%</div>
+                <div style="font-size: 3rem; font-weight: 700; margin: 1rem 0; color: var(--primary-blue);" id="scoreDisplay">0%</div>
                 <div id="orientationMessage" style="max-width: 700px; margin: 0 auto; color: var(--text-gray); line-height: 1.6;"></div>
             </div>
 
@@ -235,7 +591,7 @@
                     <i class="fas fa-file-pdf"></i> Descargar Reporte PRO
                 </button>
             </div>
-            <p style="text-align: center; color: #888; margin-top: 1rem; font-size: 0.9rem;">
+            <p style="text-align: center; color: #555; margin-top: 1rem; font-size: 0.9rem;">
                 <i class="fas fa-envelope"></i> También recibirás una copia en tu correo.
             </p>
         </div>
@@ -243,7 +599,7 @@
         <!-- PANTALLA LOADING GENÉRICO -->
         <div id="loadingScreen" class="screen" style="text-align: center; padding-top: 5rem;">
             <div class="loading-spinner" style="margin: 0 auto 1.5rem;"></div>
-            <p style="color: var(--text-gray);">Procesando datos...</p>
+            <p style="color: #333;">Procesando datos...</p>
         </div>
 
     </div>
@@ -257,7 +613,7 @@
             respuestas: [], 
             preguntasFiltradas: [], 
             preguntaActual: 0,
-            historialRespuestas: [] // Para el botón retroceder
+            historialRespuestas: []
         };
 
         window.addEventListener('DOMContentLoaded', loadData);
@@ -268,7 +624,6 @@
                 const data = await res.json();
                 appData = data;
                 renderEmpresas();
-                // Mostrar pantalla de bienvenida
                 showScreen('welcomeScreen');
                 console.log("Datos cargados correctamente.");
             } catch (e) {
@@ -356,7 +711,6 @@
         function renderQuestion() {
             const p = currentState.preguntasFiltradas[currentState.preguntaActual];
             
-            // Saltar preguntas marcadas
             if (currentState.saltadas.has(p.id)) {
                 currentState.preguntaActual++;
                 if (currentState.preguntaActual >= currentState.preguntasFiltradas.length) return finishSurvey();
@@ -366,14 +720,12 @@
             document.getElementById('rutaBadge').innerText = p.categoria;
             document.getElementById('questionText').innerText = p.pregunta;
             
-            // Contador y progreso
             const current = currentState.preguntaActual + 1;
             const total = currentState.preguntasFiltradas.length;
             document.getElementById('questionCounter').innerText = `${current} / ${total}`;
             document.getElementById('progressText').innerText = `Pregunta ${current} de ${total}`;
             document.getElementById('progressBar').style.width = `${(current / total) * 100}%`;
 
-            // Botón retroceder
             const btnRetroceder = document.getElementById('btnRetroceder');
             if (currentState.preguntaActual === 0) {
                 btnRetroceder.innerHTML = '<i class="fas fa-arrow-left"></i> Cambiar cuestionario';
@@ -385,7 +737,6 @@
         function answerQuestion(val) {
             const p = currentState.preguntasFiltradas[currentState.preguntaActual];
             
-            // Guardar en historial para poder retroceder
             currentState.historialRespuestas.push({
                 index: currentState.preguntaActual,
                 respuesta: {
@@ -400,7 +751,6 @@
                 recomendacion: p.recomendacion_si_no, peso: p.peso, respuesta: val
             });
 
-            // Si responde NO, saltar preguntas hijas
             if (!val && p.id) {
                 const hijas = currentState.preguntasFiltradas.filter(h => h.madre === p.id);
                 hijas.forEach(h => {
@@ -416,7 +766,6 @@
 
         function retrocederPregunta() {
             if (currentState.preguntaActual === 0) {
-                // Volver a selección de cuestionario
                 if (confirm('¿Deseas cambiar el tipo de cuestionario?')) {
                     showScreen('welcomeScreen');
                     volverSeleccionEmpresa();
@@ -424,19 +773,15 @@
                 return;
             }
 
-            // Restaurar estado anterior
             const ultimo = currentState.historialRespuestas.pop();
             if (ultimo) {
-                // Quitar la última respuesta
                 currentState.respuestas = currentState.respuestas.filter(r => r.id !== ultimo.respuesta.id && !r.skipped);
                 
-                // También quitar respuestas skipped que se agregaron
                 const hijasDelUltimo = currentState.preguntasFiltradas.filter(h => h.madre === ultimo.respuesta.id);
                 hijasDelUltimo.forEach(h => {
                     currentState.respuestas = currentState.respuestas.filter(r => r.id !== h.id);
                 });
 
-                // Restaurar saltadas
                 currentState.saltadas = ultimo.saltadasAntes;
                 currentState.preguntaActual = ultimo.index;
                 renderQuestion();
@@ -549,14 +894,6 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             
-            // Cambiar a modo oscuro en preguntas y resultados
-            if (id === 'questionScreen' || id === 'resultsScreen' || id === 'loadingScreen') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-            
-            // Limpiar header progress si no es pantalla de preguntas
             if (id !== 'questionScreen') {
                 document.getElementById('progressText').innerText = '';
             }
