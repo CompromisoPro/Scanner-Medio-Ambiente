@@ -88,6 +88,8 @@
         .form-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border-gray); background: #1a1a1a; color: white; font-size: 1rem; transition: border-color 0.2s; }
         .form-input:focus { border-color: var(--primary-blue); outline: none; }
         .form-label { display: block; margin-bottom: 6px; color: #ccc; font-size: 0.9rem; font-weight: 500; }
+        .form-select { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border-gray); background: #1a1a1a; color: white; font-size: 1rem; transition: border-color 0.2s; cursor: pointer; }
+        .form-select:focus { border-color: var(--primary-blue); outline: none; }
         
         /* INFO BOXES */
         .info-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem auto 3rem; max-width: 900px; }
@@ -164,6 +166,14 @@
                 
                 <label class="form-label" style="color: #333;">RUT Empresa *</label>
                 <input type="text" id="userRut" class="form-input" placeholder="Ej: 76.123.456-7" style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                
+                <label class="form-label" style="color: #333;">Tamaño de la Empresa *</label>
+                <select id="companySize" class="form-select" style="background: #f5f5f5; color: #333; border-color: #ddd;">
+                    <option value="">-- Selecciona --</option>
+                    <option value="Pequeña">Pequeña (menos de 50 trabajadores)</option>
+                    <option value="Mediana">Mediana (50 - 200 trabajadores)</option>
+                    <option value="Grande">Grande (más de 200 trabajadores)</option>
+                </select>
                 
                 <label class="form-label" style="color: #333;">Correo Electrónico *</label>
                 <input type="email" id="userEmail" class="form-input" placeholder="Ej: contacto@empresa.cl" style="background: #f5f5f5; color: #333; border-color: #ddd;">
@@ -305,9 +315,10 @@
             const nombre = document.getElementById('userName').value.trim();
             const empresa = document.getElementById('companyName').value.trim();
             const rut = document.getElementById('userRut').value.trim();
+            const tamano = document.getElementById('companySize').value;
             const email = document.getElementById('userEmail').value.trim();
 
-            if (!nombre || !empresa || !rut || !email) {
+            if (!nombre || !empresa || !rut || !tamano || !email) {
                 alert("⚠️ Por favor, completa todos los campos obligatorios.");
                 return;
             }
@@ -319,6 +330,7 @@
             currentState.userName = nombre;
             currentState.companyName = empresa;
             currentState.userRut = rut;
+            currentState.companySize = tamano;
             currentState.userEmail = email;
             
             currentState.preguntasFiltradas = appData.preguntas.filter(p => {
@@ -460,6 +472,7 @@
             const payload = {
                 action: 'save',
                 tipo_empresa: currentState.empresaSeleccionada,
+                tamano_empresa: currentState.companySize,
                 email_usuario: currentState.userEmail,
                 nombre_usuario: currentState.userName,
                 porcentaje_general: score,
@@ -493,8 +506,9 @@
                 action: 'generar_pdf',
                 meta: {
                     fecha: new Date().toLocaleDateString('es-CL'),
-                    empresa: currentState.companyName, // Nombre real de la empresa
-                    tipo_empresa: currentState.empresaSeleccionada, // Tipo de cuestionario
+                    empresa: currentState.companyName,
+                    tipo_empresa: currentState.empresaSeleccionada,
+                    tamano_empresa: currentState.companySize,
                     usuario: currentState.userName,
                     email_usuario: currentState.userEmail,
                     rut_empresa: currentState.userRut,
